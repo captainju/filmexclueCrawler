@@ -2,6 +2,7 @@ import config
 import json
 from scrapy.exceptions import DropItem
 import smtplib
+from subprocess import Popen, PIPE
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -20,14 +21,14 @@ class FilmexcluePipeline(object):
                 emailMessage += '<div>\n<a href="'+jsonNodes['url'][0]+'">\n<h2>'+jsonNodes['title'][0]+'</h2>\n'
                 emailMessage += '<img style="max-width:300px" src="'+jsonNodes['imgurl'][0]+'"/>\n'
                 emailMessage += '<br><i>'+jsonNodes['desc'][0]+'</i>'
-                emailMessage += '</a>\n</div>\n<div>&nbsp;</div>\n'
+                emailMessage += '</a>\n</div>\n<div>&nbsp;</div>\n<hr>\n'
 
         if emailMessage != '':
             self.sendEmail(emailMessage.encode("utf-8"))
 
         fileitems = open('items.json', 'a')
         for line in open('itemsNew.json'):
-          fileitems.write(line)
+            fileitems.write(line)
 
         fileitems.close()
         open('itemsNew.json', 'w').close()
@@ -66,13 +67,14 @@ class FilmexcluePipeline(object):
         msg.attach(part2)
 
         # Send the message via local SMTP server.
-        s = smtplib.SMTP(config.mailsmtp)
+        #s = smtplib.SMTP(config.mailsmtp)
         # sendmail function takes 3 arguments: sender's address, recipient's address
         # and message to send - here it is sent as one string.
-        s.sendmail(config.mailfrom, config.mailto, msg.as_string())
-        s.quit()
+        #s.sendmail(config.mailfrom, config.mailto, msg.as_string())
+        #s.quit()
 
-
+        p = Popen(["/usr/sbin/sendmail", "-t"], stdin=PIPE)
+        p.communicate(msg.as_string())
 
 class JsonWriterPipeline(object):
 
