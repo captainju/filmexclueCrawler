@@ -83,8 +83,11 @@ class JsonWriterPipeline(object):
         open('items.json', 'a').close()
 
     def process_item(self, item, spider):
-        if 'TS' in item['title'][0]:
+        if '[TS]' in item['title'][0]:
             raise DropItem("TS in '%s'" % item['title'][0])
+
+        if '[CAM]' in item['title'][0]:
+            raise DropItem("CAM in '%s'" % item['title'][0])
         
         fileNew = open('itemsNew.json', 'a')
         line = json.dumps(dict(item)) + "\n"
