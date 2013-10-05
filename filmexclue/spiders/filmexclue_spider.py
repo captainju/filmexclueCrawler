@@ -19,6 +19,8 @@ class filmexclueSpider(BaseSpider):
             url = post.select('descendant::h2/a/@href').extract()
             title = post.select('descendant::h2/a/text()').extract()
             desc = post.select('descendant::i/text()').extract()
+            if desc == []:
+                desc = post.select('descendant::em/text()').extract()
             imgurl = post.select("descendant::div[@class='entry']/descendant::img/@src").extract()
             item['url'] = url
             item['title'] = title
