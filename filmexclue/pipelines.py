@@ -5,6 +5,7 @@ import smtplib
 from subprocess import Popen, PIPE
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import urllib
 
 
 class FilmexcluePipeline(object):
@@ -20,8 +21,13 @@ class FilmexcluePipeline(object):
                 jsonNodes = json.loads(newLine)
                 emailMessage += '<div>\n<a href="'+jsonNodes['url'][0]+'">\n<h2>'+jsonNodes['title'][0]+'</h2>\n'
                 emailMessage += '<img style="max-width:300px" src="'+jsonNodes['imgurl'][0]+'"/>\n'
-                emailMessage += '<br><i>'+jsonNodes['desc'][0]+'</i>'
-                emailMessage += '</a>\n</div>\n<div>&nbsp;</div>\n<hr>\n'
+                emailMessage += '<br><br><i>'+jsonNodes['desc'][0]+'</i>'
+                emailMessage += '</a><br><br>'
+                cleanTitle = jsonNodes['title'][0]
+                cleanTitle = cleanTitle[0:cleanTitle.index('|')-1]
+                cleanTitle = urllib.quote(cleanTitle.encode('utf8'))
+                emailMessage += '<a href="http://www.senscritique.com/recherche?query='+cleanTitle+'&filter=movies">Recherche sur SensCritique</a>'
+                emailMessage += '\n</div>\n<div>&nbsp;</div>\n<hr>\n'
 
         if emailMessage != '':
             self.sendEmail(emailMessage.encode("utf-8"))
