@@ -94,6 +94,9 @@ class JsonWriterPipeline(object):
 
         if '[CAM]' in item['title'][0]:
             raise DropItem("CAM in '%s'" % item['title'][0])
+
+        if '[DVDSCR]' in item['title'][0]:
+            raise DropItem("DVDSCR in '%s'" % item['title'][0])
         
         fileNew = open('itemsNew.json', 'a')
         line = json.dumps(dict(item)) + "\n"
