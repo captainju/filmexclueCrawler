@@ -7,7 +7,8 @@ class filmexclueSpider(BaseSpider):
     allowed_domains = ["fs-exclue.com/"]
     start_urls = [
         "http://www.fs-exclue.com/",
-        "http://www.fs-exclue.com/page/2/"
+        "http://www.fs-exclue.com/page/2/",
+        "http://www.fs-exclue.com/page/3/"
     ]
 
     def parse(self, response):
