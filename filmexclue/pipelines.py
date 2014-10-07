@@ -21,8 +21,8 @@ class FilmexcluePipeline(object):
                 jsonNodes = json.loads(newLine)
                 emailMessage += '<div>\n<a href="'+jsonNodes['url'][0]+'">\n<h2>'+jsonNodes['title'][0]+'</h2>\n'
                 emailMessage += '<img style="max-width:300px" src="'+jsonNodes['imgurl'][0]+'"/>\n'
-                emailMessage += '<br><br><i>'+jsonNodes['desc'][0]+'</i>'
-                emailMessage += '</a><br><br>'
+                emailMessage += '</a><br><br><i>'+jsonNodes['desc'][0]+'</i>'
+                emailMessage += '<br><br>'
                 cleanTitle = jsonNodes['title'][0]
                 cleanTitle = cleanTitle[0:cleanTitle.index('|')-1]
                 cleanTitle = urllib.quote(cleanTitle.encode('utf8'))
