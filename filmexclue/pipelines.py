@@ -24,7 +24,8 @@ class FilmexcluePipeline(object):
                 emailMessage += '</a><br><br><i>'+jsonNodes['desc'][0]+'</i>'
                 emailMessage += '<br><br>'
                 cleanTitle = jsonNodes['title'][0]
-                cleanTitle = cleanTitle[0:cleanTitle.index('|')-1]
+		if cleanTitle.find('|')!=-1:
+	                cleanTitle = cleanTitle[0:cleanTitle.index('|')-1]
                 cleanTitle = urllib.quote(cleanTitle.encode('utf8'))
                 emailMessage += '<a href="http://www.senscritique.com/recherche?query='+cleanTitle+'&filter=movies">Recherche sur SensCritique</a>'
                 emailMessage += '\n</div>\n<div>&nbsp;</div>\n<hr>\n'
